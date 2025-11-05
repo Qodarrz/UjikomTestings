@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* Tentukan sumber file untuk scanning (pengganti `content` di v3) */
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+/* 🎨 Definisikan tema di sini */
+@theme {
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+
+    /* 🟦 Warna utama */
+    --color-primary: #1447e6;
+    --color-primary-light: #144f8c;
+    --color-primary-dark: #09294a;
+
+    /* 🟨 Warna aksen */
+    --color-accent: #f4d35e;
+    --color-accent-dark: #e3be42;
+
+    /* ⚪ Warna netral */
+    --color-neutral-light: #f8f9fa;
+    --color-neutral-dark: #1a1a1a;
+
+    /* 🌍 Container default */
+    --container-padding: 1rem;
+
+    --color-dark: #0a0a0a;
+    --color-gray-800: #1f1f1f;
+    --color-gray-400: #9ca3af;
+    --color-gray-200: #e5e7eb;
+}
+
+/* Base global style (opsional) */
+@layer base {
+    body {
+        @apply font-sans bg-neutral-light text-gray-800 leading-relaxed;
+    }
+}
