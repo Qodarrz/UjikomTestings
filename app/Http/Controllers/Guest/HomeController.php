@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use App\Models\Galery;
 use App\Models\Foto;
-use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -33,33 +31,6 @@ class HomeController extends Controller
     {
         $profil = Profile::first();
         return view('guest.profile', compact('profil'));
-    }
-
-    /**
-     * 🖼️ Galeri Kegiatan
-     * Menampilkan daftar album galeri & foto di dalamnya
-     */
-    public function galeri()
-    {
-        $galeri = Galery::with('foto')
-            ->orderBy('position', 'asc')
-            ->get();
-
-        return view('guest.galeri', compact('galeri'));
-    }
-
-    /**
-     * 📰 Berita / Informasi
-     * Menampilkan daftar post yang berstatus publish
-     */
-    public function posts()
-    {
-        $posts = Post::with(['kategori', 'petugas'])
-            ->where('status', 'publish')
-            ->latest()
-            ->paginate(6);
-
-        return view('guest.posts', compact('posts'));
     }
 
     /**

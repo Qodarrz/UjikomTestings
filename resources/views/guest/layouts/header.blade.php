@@ -1,30 +1,15 @@
 {{-- Navbar --}}
-<nav
-    x-data="{ open: false, scrolled: false }"
-    @scroll.window="scrolled = window.pageYOffset > 50"
-    class="fixed bg-white top-0 left-0 w-full z-50 transition-all duration-500">
+<nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+
     <div class="container mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center">
 
-            {{-- Brand dengan animasi --}}
-            <a
-                href="{{ url('/') }}"
-                class="flex items-center space-x-3 group transition-all duration-300 hover:scale-105">
-                <img
-                    src="{{ asset('images/logo.png') }}"
-                    alt="Logo SMKN 4 Bogor"
-                    class="w-10 h-12 transition-all duration-300"
-                    :class="scrolled ? 'border-gray-300' : 'border-white'" />
-                
+            {{-- Brand --}}
+            <a href="{{ url('/') }}" class="flex items-center space-x-3 group transition-all duration-300 hover:scale-105">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo SMKN 4 Bogor" class="w-10 h-12">
                 <div>
-                    <span class="font-bold text-xl block leading-tight transition-colors duration-300" 
-                          :class="scrolled ? 'text-gray-800' : 'text-white'">
-                        SMKN 4 Bogor
-                    </span>
-                    <span class="text-xs opacity-80 block leading-tight transition-colors duration-300" 
-                          :class="scrolled ? 'text-gray-600' : 'text-white/80'">
-                        Sekolah Unggulan
-                    </span>
+                    <span class="font-bold text-xl block leading-tight text-gray-900">SMKN 4 Bogor</span>
+                    <span class="text-xs opacity-80 block leading-tight text-gray-600">Sekolah Unggulan</span>
                 </div>
             </a>
 
@@ -34,111 +19,161 @@
                 $links = [
                 ['name' => 'Beranda', 'route' => 'guest.home', 'icon' => 'fas fa-home'],
                 ['name' => 'Profil', 'route' => 'guest.profile', 'icon' => 'fas fa-user-graduate'],
-                ['name' => 'Galeri', 'route' => 'guest.galeri', 'icon' => 'fas fa-images'],
-                ['name' => 'Berita', 'route' => 'guest.posts', 'icon' => 'fas fa-newspaper'],
+                ['name' => 'Galeri', 'route' => 'guest.galeri.index', 'icon' => 'fas fa-images'],
+                ['name' => 'Berita', 'route' => 'guest.berita.index', 'icon' => 'fas fa-newspaper'],
                 ['name' => 'Kontak', 'route' => 'guest.contact', 'icon' => 'fas fa-phone'],
                 ];
                 @endphp
 
                 @foreach ($links as $link)
-                <a
-                    href="{{ route($link['route']) }}"
-                    class="relative px-4 py-3 rounded-xl transition-all duration-300 group"
-                    :class="scrolled ? 
-                            '{{ request()->routeIs($link['route']) ? 'bg-accent text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100' }}' : 
-                            '{{ request()->routeIs($link['route']) ? 'bg-white/20 text-white shadow-lg' : 'text-white/90 hover:bg-white/10' }}'">
-                    
+                <a href="{{ route($link['route']) }}"
+                    class="nav-desktop-link relative px-4 py-3 rounded-xl transition-all duration-300 group text-gray-700 hover:bg-gray-100 {{ request()->routeIs($link['route']) ? 'bg-gray-100 text-gray-900' : '' }}">
                     <div class="relative flex items-center space-x-2">
-                        <i class="{{ $link['icon'] }} text-sm transition-transform duration-300 group-hover:scale-110"></i>
+                        <i class="{{ $link['icon'] }} text-sm"></i>
                         <span class="font-medium tracking-wide">{{ $link['name'] }}</span>
                     </div>
-
-                    {{-- Active indicator --}}
                     @if(request()->routeIs($link['route']))
-                    <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-accent rounded-full"></div>
                     @endif
                 </a>
                 @endforeach
             </div>
 
-        <!-- Tombol Toggle Mobile -->
-<button
-    @click="open = !open"
-    class="lg:hidden relative w-10 h-10 flex flex-col items-center justify-center transition-all duration-300 rounded-xl focus:outline-none"
-    :class="scrolled ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white/10 hover:bg-white/20'"
-    aria-label="Toggle Menu">
+            {{-- Tombol Toggle Mobile --}}
+            <div class="lg:hidden flex items-center">
+                <button id="mobile-menu-btn"
+                    class="mobile-menu-btn relative w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700">
+                    <span class="sr-only">Toggle menu</span>
+                    <div class="w-6 h-6 relative">
+                        <span class="absolute top-2 left-0 w-6 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+                        <span class="absolute top-1/2 left-0 w-6 h-0.5 bg-gray-700 rounded-full transition-all duration-300 -translate-y-1/2"></span>
+                        <span class="absolute bottom-2 left-0 w-6 h-0.5 bg-gray-700 rounded-full transition-all duration-300"></span>
+                    </div>
+                </button>
+            </div>
 
-    <span class="sr-only">Toggle menu</span>
-
-    <!-- Garis atas -->
-    <span class="absolute w-5 h-0.5 rounded-full transition-all duration-300 origin-center"
-        :class="scrolled ? 'bg-gray-800' : 'bg-white'"
-        :style="open ? 'transform: rotate(45deg) translate(4px, 5px);' : 'transform: translateY(-6px);'">
-    </span>
-
-    <!-- Garis tengah -->
-    <span class="absolute w-5 h-0.5 rounded-full transition-all duration-300 origin-center"
-        :class="scrolled ? 'bg-gray-800' : 'bg-white'"
-        :style="open ? 'opacity: 0;' : 'opacity: 1;'">
-    </span>
-
-    <!-- Garis bawah -->
-    <span class="absolute w-5 h-0.5 rounded-full transition-all duration-300 origin-center"
-        :class="scrolled ? 'bg-gray-800' : 'bg-white'"
-        :style="open ? 'transform: rotate(-45deg) translate(4px, -5px);' : 'transform: translateY(6px);'">
-    </span>
-</button>
-
-        </div>
-
-        {{-- Menu Mobile --}}
-        <div x-cloak
-            x-show="open"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform -translate-y-4"
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 transform translate-y-0"
-            x-transition:leave-end="opacity-0 transform -translate-y-4"
-            @click.away="open = false"
-            class="lg:hidden mt-4 rounded-2xl overflow-hidden shadow-2xl border"
-            :class="scrolled ? 'bg-white border-gray-200' : 'bg-primary/95 border-white/20 backdrop-blur-xl'">
-            
-            <ul class="py-2 space-y-1">
-                @foreach ($links as $link)
-                <li>
-                    <a
-                        href="{{ route($link['route']) }}"
-                        @click="open = false"
-                        class="flex items-center space-x-3 px-6 py-4 transition-all duration-300 group"
-                        :class="scrolled ? 
-                                '{{ request()->routeIs($link['route']) ? 'bg-accent text-white' : 'text-gray-700 hover:bg-gray-50' }}' : 
-                                '{{ request()->routeIs($link['route']) ? 'bg-white/20 text-white' : 'text-white/90 hover:bg-white/10' }}'">
-                        <i class="{{ $link['icon'] }} w-5 text-center transition-transform duration-300 group-hover:scale-110"></i>
-                        <span class="font-medium">{{ $link['name'] }}</span>
-                        @if(request()->routeIs($link['route']))
-                        <i class="fas fa-chevron-right ml-auto text-xs opacity-70"></i>
-                        @endif
-                    </a>
-                </li>
-                @endforeach
-
-                {{-- CTA Mobile --}}
-                <li class="pt-2 border-t" :class="scrolled ? 'border-gray-200' : 'border-white/20'">
-                    <a
-                        href="#"
-                        @click="open = false"
-                        class="flex items-center justify-center space-x-2 mx-4 px-6 py-3 bg-gradient-to-r from-accent to-accent-dark text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
-                        <i class="fas fa-paper-plane"></i>
-                        <span>Daftar Sekarang</span>
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
+
+    {{-- Menu Mobile Sidebar --}}
+    <div id="mobile-sidebar" class="mobile-sidebar lg:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex justify-between items-center p-6 border-b border-gray-200">
+            <h2 class="text-lg font-bold text-gray-900">Menu</h2>
+            <button id="close-sidebar" class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
+                <i class="fas fa-times text-gray-700"></i>
+            </button>
+        </div>
+
+        <ul class="py-4 space-y-2">
+            @foreach ($links as $link)
+            <li>
+                <a href="{{ route($link['route']) }}"
+                    class="mobile-nav-link flex items-center space-x-3 px-6 py-4 transition-all duration-300 group text-gray-700 hover:bg-gray-100 {{ request()->routeIs($link['route']) ? 'bg-gray-100 text-gray-900 border-r-4 border-gray-900' : '' }}">
+                    <i class="{{ $link['icon'] }} w-5 text-center"></i>
+                    <span class="font-medium">{{ $link['name'] }}</span>
+                    @if(request()->routeIs($link['route']))
+                    <i class="fas fa-chevron-right ml-auto text-xs opacity-70"></i>
+                    @endif
+                </a>
+            </li>
+            @endforeach
+
+            {{-- CTA Mobile --}}
+            <li class="pt-4 mt-4 border-t border-gray-200">
+                <a href="#" class="flex items-center justify-center space-x-2 mx-4 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Daftar Sekarang</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    {{-- Overlay --}}
+    <div id="sidebar-overlay" class="fixed inset-0 z-40 hidden"></div>
 </nav>
 
-{{-- Tambahkan style untuk x-cloak --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const hamburgerLines = document.querySelectorAll('.mobile-menu-btn span');
+
+        // Buka sidebar
+        function openSidebar() {
+            mobileSidebar.classList.remove('translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Animasi hamburger ke X
+            hamburgerLines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+            hamburgerLines[1].style.opacity = '0';
+            hamburgerLines[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        }
+
+        // Tutup sidebar
+        function closeSidebarFunc() {
+            mobileSidebar.classList.add('translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+
+            // Animasi X ke hamburger
+            hamburgerLines[0].style.transform = 'none';
+            hamburgerLines[1].style.opacity = '1';
+            hamburgerLines[2].style.transform = 'none';
+        }
+
+        // Event listeners
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        closeSidebar.addEventListener('click', closeSidebarFunc);
+        sidebarOverlay.addEventListener('click', closeSidebarFunc);
+
+        // Close sidebar ketika klik link
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeSidebarFunc);
+        });
+
+        // Close dengan ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !mobileSidebar.classList.contains('translate-x-full')) {
+                closeSidebarFunc();
+            }
+        });
+    });
+</script>
+
 <style>
-    [x-cloak] { display: none !important; }
+    [x-cloak] {
+        display: none !important;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Pastikan navbar di atas semua elemen */
+    #main-navbar {
+        z-index: 9999 !important;
+    }
+
+    /* Style untuk hamburger lines */
+    .mobile-menu-btn span {
+        transition: all 0.3s ease;
+    }
+
+    /* Pastikan konten tidak tertutup navbar */
+    main {
+        margin-top: 80px;
+    }
+
+    /* Smooth transition untuk sidebar */
+    .mobile-sidebar {
+        transition: transform 0.3s ease;
+    }
+
+    /* Overlay transition */
+    #sidebar-overlay {
+        transition: opacity 0.3s ease;
+    }
 </style>

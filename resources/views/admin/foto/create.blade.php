@@ -1,36 +1,38 @@
 @extends('admin.adminlayout')
 
-@section('title', 'Tambah Data')
+@section('title', 'Tambah Foto')
 
 @section('content')
-<div class="page-header mb-3">
-    <h2>Tambah @yield('title')</h2>
-    <a href="{{ route($routePrefix . '.index') }}" class="btn btn-secondary btn-sm">
-        <i class="bi bi-arrow-left"></i> Kembali
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Tambah Foto untuk Galeri: {{ $galeri->post->judul ?? '-' }}</h2>
+    <a href="{{ route('admin.galeri.show', $galeri->id) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition">
+        <i class="bi bi-arrow-left mr-2"></i> Kembali
     </a>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <form action="{{ route($routePrefix . '.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @foreach ($fields as $name => $type)
-                <div class="mb-3">
-                    <label for="{{ $name }}" class="form-label">{{ ucfirst($name) }}</label>
-                    @if ($type == 'textarea')
-                        <textarea name="{{ $name }}" id="{{ $name }}" class="form-control" rows="4"></textarea>
-                    @elseif ($type == 'file')
-                        <input type="file" name="{{ $name }}" id="{{ $name }}" class="form-control">
-                    @else
-                        <input type="{{ $type }}" name="{{ $name }}" id="{{ $name }}" class="form-control">
-                    @endif
-                </div>
-            @endforeach
+<div class="bg-white shadow-md rounded-lg p-6">
+    <form action="{{ route($routePrefix . '.store', $galeri->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        @csrf
 
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save"></i> Simpan
-            </button>
-        </form>
-    </div>
+        <div>
+            <label for="judul" class="block text-gray-700 font-medium mb-2">Judul (opsional)</label>
+            <input type="text" name="judul" id="judul" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" value="{{ old('judul') }}">
+            @error('judul')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="files" class="block text-gray-700 font-medium mb-2">Pilih Foto</label>
+            <input type="file" name="files[]" id="files" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" multiple>
+            @error('files.*')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <button type="submit" class="inline-flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+            <i class="bi bi-save mr-2"></i> Simpan
+        </button>
+    </form>
 </div>
 @endsection

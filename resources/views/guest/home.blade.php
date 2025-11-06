@@ -17,7 +17,7 @@
 
 <div class="py-12 md:py-16 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-start text-2xl md:text-4xl font-bold text-black mb-8 md:mb-12">Tentang SMKN 4 Bogor</h2>
+        <h2 class="text-start text-2xl md:text-6xl font-bold text-black mb-8 md:mb-12">Tentang SMKN 4 Bogor</h2>
         <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             <div class="md:w-2/3 text-gray-600">
                 <p class="mb-4 font-medium leading-relaxed">SMKN 4 Bogor merupakan salah satu sekolah menengah kejuruan terkemuka di Kota Bogor yang telah berdiri sejak tahun 1980. Kami berkomitmen untuk menghasilkan lulusan yang kompeten, berkarakter kuat, dan siap bersaing di dunia kerja.</p>
@@ -61,13 +61,13 @@
 {{-- Galeri foto terbaru --}}
 <div class="py-12 md:py-16 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-center text-2xl md:text-3xl font-bold text-black mb-6 md:mb-8">Galeri Terbaru</h2>
+        <h2 class="text-center text-2xl md:text-6xl font-bold text-black mb-6 md:mb-24">Galeri Terbaru</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             @forelse($fotoTerbaru as $foto)
             <div class="bg-white rounded-xl shadow overflow-hidden">
                 <img src="{{ asset('storage/' . $foto->file) }}" alt="{{ $foto->judul }}" class="h-40 md:h-52 w-full object-cover">
                 <div class="p-3 text-center">
-                    <p class="font-semibold text-blue-700 text-sm md:text-base">{{ $foto->judul }}</p>
+                    <p class="font-semibold text-black text-sm md:text-base">{{ $foto->judul }}</p>
                 </div>
             </div>
             @empty
@@ -75,7 +75,7 @@
             @endforelse
         </div>
         <div class="text-center mt-6 md:mt-8">
-            <a href="{{ route('guest.galeri') }}" class="inline-block bg-blue-700 text-white px-6 py-2 md:px-8 md:py-3 rounded-full hover:bg-blue-800 transition duration-300">Lihat Semua Galeri</a>
+            <a href="{{ route('guest.galeri.index') }}" class="inline-block bg-blue-700 text-white px-6 py-2 md:px-8 md:py-3 rounded-full hover:bg-blue-800 transition duration-300">Lihat Semua Galeri</a>
         </div>
     </div>
 </div>
@@ -83,7 +83,7 @@
 {{-- Prestasi --}}
 <div class="py-12 md:py-16 bg-grey-100">
     <div class="max-w-5xl mx-auto px-4">
-        <h2 class="text-center text-2xl md:text-3xl font-bold text-black mb-6 md:mb-8">Prestasi Terbaru</h2>
+        <h2 class="text-center text-2xl md:text-6xl font-bold text-black mb-6 md:mb-8">Berita Terbaru</h2>
         <div class="grid md:grid-cols-2 gap-4 md:gap-6">
             <div class="bg-white rounded-2xl shadow p-4 md:p-6 hover:-translate-y-1 transition duration-300">
                 <h5 class="text-blue-700 font-semibold mb-2 text-base md:text-lg">Juara 1 Lomba Kompetensi Siswa Tingkat Nasional 2023</h5>
